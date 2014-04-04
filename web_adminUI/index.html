@@ -13,7 +13,7 @@
 	var id
 	function sendCmd (cmdOb){
 		$.ajax({
-			url:"http://useless-no.de:8080/cmd",
+			url:"[nulled]/cmd",
 			type:"post",
 			data:"data=" + encodeURIComponent(cmdOb)
 		});
@@ -56,7 +56,7 @@
 			getRet();
 		}
 		$.ajax({
-			url:"http://useless-no.de:8080/new",
+			url:"[nulled]/new",
 			type:"get",
 			complete:register
 		});
